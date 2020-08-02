@@ -1,11 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using DocumentRepository.Models;
+using System.IO;
 
 namespace DocumentRepository.Controllers
 {
@@ -77,8 +77,18 @@ namespace DocumentRepository.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
         [HttpPost]
-        public async Task<ActionResult<Document>> PostDocument(Document document)
+        public async Task<ActionResult<Document>> PostDocument(IFormFile file)
         {
+            //Create new Document with information from file passed in.
+            //TODO: don't trust filename from the input.
+            Document document = new Document() 
+            { 
+                Name = file.FileName
+            };
+            MemoryStream memoryStream = new MemoryStream();
+            await file.CopyToAsync(memoryStream);
+            document.Contents = memoryStream.ToArray();
+
             _context.TodoItems.Add(document);
             await _context.SaveChangesAsync();
 
