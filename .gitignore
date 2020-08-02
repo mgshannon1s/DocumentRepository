@@ -1,6 +1,7 @@
 # Ignoring user files and files built by solution
-/bin
-/obj
-/.vs
+DocumentRepository/bin/
+DocumentRepository/obj/
+/.vs/
 *.suo
 *.log
+*.user
