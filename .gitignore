@@ -1,0 +1,6 @@
+# Ignoring user files and files built by solution
+/bin
+/obj
+/.vs
+*.suo
+*.log
